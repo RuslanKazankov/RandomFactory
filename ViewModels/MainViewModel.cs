@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Xaml.Behaviors.Input;
+using Prism.Commands;
 using Prism.Mvvm;
 using RandomFactory.Models;
 using System.Windows.Input;
@@ -22,74 +23,96 @@ namespace RandomFactory.ViewModels
                 RaisePropertyChanged(nameof(ResultOfGeneration));
             }
         }
+
+        private double minRange;
         public double MinRange
         {
             get
             {
-                return randomGenerator.MinRange;
+                return minRange;
             }
             set
             {
-                randomGenerator.MinRange = value;
+                minRange = value;
                 RaisePropertyChanged(nameof(MinRange));
             }
         }
+
+        private double maxRange;
         public double MaxRange
         {
             get
             {
-                return randomGenerator.MaxRange;
+                return maxRange;
             }
             set
             {
-                randomGenerator.MaxRange = value;
+                maxRange = value;
                 RaisePropertyChanged(nameof(MaxRange));
             }
         }
+
+        private bool useRange;
         public bool UseRange
         {
             get
             {
-                return randomGenerator.UseRange;
+                return useRange;
             }
             set
             {
-                randomGenerator.UseRange = value;
+                useRange = value;
                 RaisePropertyChanged(nameof(UseRange));
             }
         }
 
+        private DelegateCommand generateInt;
         public ICommand GenerateIntCommand
         {
             get
             {
-                return new DelegateCommand(() =>
+                return generateInt ?? (generateInt = new DelegateCommand(() =>
                 {
-                    ResultOfGeneration = randomGenerator.GenerateInt().ToString();
-                });
+                    if (UseRange)
+                    {
+                        ResultOfGeneration = randomGenerator.GenerateInt(MinRange, MaxRange).ToString();
+                    }
+                    else ResultOfGeneration = randomGenerator.GenerateInt().ToString();
+                }));
             }
         }
+
+        private DelegateCommand generateDouble;
         public ICommand GenerateDoubleCommand
         {
             get
             {
-                return new DelegateCommand(() =>
+                return generateDouble ?? (generateDouble = new DelegateCommand(() =>
                 {
-                    ResultOfGeneration = randomGenerator.GenerateDouble().ToString();
-                });
+                    if (UseRange)
+                    {
+                        ResultOfGeneration = randomGenerator.GenerateDouble(MinRange, MaxRange).ToString();
+                    }
+                    else ResultOfGeneration = randomGenerator.GenerateDouble().ToString();
+                }));
             }
         }
+
+        private DelegateCommand generatePercent;
         public ICommand GeneratePercentCommand
         {
             get
             {
-                return new DelegateCommand(() =>
+                return generatePercent ?? (generatePercent = new DelegateCommand(() =>
                 {
-                    ResultOfGeneration = randomGenerator.GeneratePercent().ToString() + "%";
-                });
+                    if (UseRange)
+                    {
+                        ResultOfGeneration = randomGenerator.GeneratePercent(MinRange, MaxRange).ToString() + "%";
+                    }
+                    else ResultOfGeneration = randomGenerator.GeneratePercent().ToString() + "%";
+                }));
             }
         }
-
 
     }
 }

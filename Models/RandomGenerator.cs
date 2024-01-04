@@ -3,43 +3,42 @@ using System.Windows;
 
 namespace RandomFactory.Models
 {
-
     public class RandomGenerator
     {
         private Random random = new Random();
-        public bool UseRange { get; set; }
-        public double MinRange { get; set; }
-        public double MaxRange{ get; set; }
+        public int GenerateInt()
+        {
+            return random.Next();
+        }
+        public int GenerateInt(double minRange, double maxRange)
+        {
+            if (RangeException(minRange, maxRange)) return 0;
+
+            return (int)(minRange + random.Next() % (maxRange + 1 - minRange));
+        }
 
         public double GenerateDouble() {
-            if (UseRange)
-            {
-                if (RangeException()) return 0;
-
-                return MinRange + random.NextDouble() * (MaxRange - MinRange);
-            }
             return random.NextDouble() * random.Next(); 
         }
-        public int GenerateInt() {
-            if (UseRange)
-            {
-                if (RangeException()) return 0;
+        public double GenerateDouble(double minRange, double maxRange) {
+            if (RangeException(minRange, maxRange)) return 0;
 
-                return (int)(MinRange + random.Next() % (MaxRange + 1 - MinRange));
-            }
-            return random.Next(); 
+            return minRange + random.NextDouble() * (maxRange - minRange);
         }
-        public int GeneratePercent() {
-            if (PercentException()) return -1;
-            if (RangeException()) return -1;
 
-            if (UseRange) return GenerateInt();
+        public int GeneratePercent() {
             return random.Next() % 101; 
         }
+        public int GeneratePercent(double minRange, double maxRange) {
+            if (PercentException(minRange, maxRange)) return -1;
+            if (RangeException(minRange, maxRange)) return -1;
 
-        private bool RangeException()
+            return GenerateInt(minRange,maxRange);
+        }
+
+        private bool RangeException(double minRange, double maxRange)
         {
-            if (MinRange > MaxRange)
+            if (minRange > maxRange)
             {
                 MessageBox.Show("Минимальное значение должно быть не больше максимального");
                 return true;
@@ -47,9 +46,9 @@ namespace RandomFactory.Models
             return false;
         }
 
-        private bool PercentException()
+        private bool PercentException(double minRange, double maxRange)
         {
-            if (MinRange < 0 || MinRange > 100 || MaxRange < 0 || MaxRange > 100)
+            if (minRange < 0 || minRange > 100 || maxRange < 0 || maxRange > 100)
             {
                 MessageBox.Show("Проценты должны быть от 0 до 100");
                 return true;
