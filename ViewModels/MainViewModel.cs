@@ -9,17 +9,53 @@ namespace RandomFactory.ViewModels
     {
         private RandomGenerator randomGenerator = new RandomGenerator();
 
-        private string _resultOfGeneration = "0";
+        private string resultOfGeneration = "0";
         public string ResultOfGeneration
         {
             get 
             {
-                return _resultOfGeneration; 
+                return resultOfGeneration; 
             }
             set
             {
-                _resultOfGeneration = value;
-                RaisePropertyChanged("ResultOfGeneration");
+                resultOfGeneration = value;
+                RaisePropertyChanged(nameof(ResultOfGeneration));
+            }
+        }
+        public double MinRange
+        {
+            get
+            {
+                return randomGenerator.MinRange;
+            }
+            set
+            {
+                randomGenerator.MinRange = value;
+                RaisePropertyChanged(nameof(MinRange));
+            }
+        }
+        public double MaxRange
+        {
+            get
+            {
+                return randomGenerator.MaxRange;
+            }
+            set
+            {
+                randomGenerator.MaxRange = value;
+                RaisePropertyChanged(nameof(MaxRange));
+            }
+        }
+        public bool UseRange
+        {
+            get
+            {
+                return randomGenerator.UseRange;
+            }
+            set
+            {
+                randomGenerator.UseRange = value;
+                RaisePropertyChanged(nameof(UseRange));
             }
         }
 
