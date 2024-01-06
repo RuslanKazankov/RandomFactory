@@ -1,0 +1,68 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!--    Gray    -->
+    <Color x:Key="Gray100">#0E0E12</Color>
+    <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
+
+    <Color x:Key="Gray80">#1C1C23</Color>
+    <SolidColorBrush x:Key="Gray80Brush" Color="{StaticResource Gray80}"/>
+
+    <Color x:Key="Gray70">#353542</Color>
+    <SolidColorBrush x:Key="Gray70Brush" Color="{StaticResource Gray70}"/>
+
+    <Color x:Key="Gray60">#4E4E61</Color>
+    <SolidColorBrush x:Key="Gray60Brush" Color="{StaticResource Gray60}"/>
+
+    <Color x:Key="Gray50">#666680</Color>
+    <SolidColorBrush x:Key="Gray50Brush" Color="{StaticResource Gray50}"/>
+
+    <Color x:Key="Gray40">#83839C</Color>
+    <SolidColorBrush x:Key="Gray40Brush" Color="{StaticResource Gray40}"/>
+
+    <Color x:Key="Gray30">#A2A2B5</Color>
+    <SolidColorBrush x:Key="Gray30Brush" Color="{StaticResource Gray30}"/>
+
+    <Color x:Key="Gray20">#C1C1CD</Color>
+    <SolidColorBrush x:Key="Gray20Brush" Color="{StaticResource Gray20}"/>
+
+    <Color x:Key="Gray10">#E0E0E6</Color>
+    <SolidColorBrush x:Key="Gray10Brush" Color="{StaticResource Gray10}"/>
+
+    <!--    Primary    -->
+    <Color x:Key="Primary100">#5E00F5</Color>
+    <SolidColorBrush x:Key="Primary100Brush" Color="{StaticResource Primary100}"/>
+
+    <Color x:Key="Primary50">#7722FF</Color>
+    <SolidColorBrush x:Key="Primary50Brush" Color="{StaticResource Primary50}"/>
+
+    <Color x:Key="Primary20">#924EFF</Color>
+    <SolidColorBrush x:Key="Primary20Brush" Color="{StaticResource Primary20}"/>
+
+    <Color x:Key="Primary10">#AD7BFF</Color>
+    <SolidColorBrush x:Key="Primary10Brush" Color="{StaticResource Primary10}"/>
+
+    <Color x:Key="Primary05">#C9A7FF</Color>
+    <SolidColorBrush x:Key="Primary05Brush" Color="{StaticResource Primary05}"/>
+
+    <Color x:Key="Primary0">#E4D3FF</Color>
+    <SolidColorBrush x:Key="Primary0Brush" Color="{StaticResource Primary0}"/>
+
+    <!--    Accent Primary    -->
+    <Color x:Key="AccentP100">#FF7966</Color>
+    <SolidColorBrush x:Key="AccentP100Brush" Color="{StaticResource AccentP100}"/>
+
+    <Color x:Key="AccentP50">#FFA699</Color>
+    <SolidColorBrush x:Key="AccentP50Brush" Color="{StaticResource AccentP50}"/>
+
+    <Color x:Key="AccentP0">#FFD2CC</Color>
+    <SolidColorBrush x:Key="AccentP0Brush" Color="{StaticResource AccentP0}"/>
+    
+    <!--    Accent Secondary-->
+    <Color x:Key="AccentS100">#00FAD9</Color>
+    <SolidColorBrush x:Key="AccentS100Brush" Color="{StaticResource AccentS100}"/>
+
+    <Color x:Key="AccentS50">#7DFFEE</Color>
+    <SolidColorBrush x:Key="AccentS50Brush" Color="{StaticResource AccentS50}"/>
+
+</ResourceDictionary>

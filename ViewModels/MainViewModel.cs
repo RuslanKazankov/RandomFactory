@@ -38,7 +38,7 @@ namespace RandomFactory.ViewModels
             }
         }
 
-        private double maxRange;
+        private double maxRange = 100;
         public double MaxRange
         {
             get
@@ -52,7 +52,7 @@ namespace RandomFactory.ViewModels
             }
         }
 
-        private bool useRange;
+        private bool useRange = true;
         public bool UseRange
         {
             get

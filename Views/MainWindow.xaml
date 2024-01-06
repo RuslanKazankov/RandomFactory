@@ -11,13 +11,19 @@
         <viewmodels:MainViewModel/>
     </Window.DataContext>
     <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="5"/>
-        </Style>
     </Window.Resources>
     <Grid>
-        <StackPanel HorizontalAlignment="Center" Margin="0,300,0,0">
-            <TextBlock FontSize="60" Text="{Binding ResultOfGeneration}" TextAlignment="Center"/>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                <GradientStop Color="{StaticResource Gray100}" Offset="0"/>
+                <GradientStop Color="{StaticResource Gray80}" Offset="0.7"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock FontSize="60"
+                       FontWeight="Bold"
+                       Text="{Binding ResultOfGeneration}"
+                       TextAlignment="Center"/>
             <StackPanel Width="300">
                 <Button Command="{Binding GenerateIntCommand}"
                         Content="Сгенерировать целое число"/>
@@ -25,26 +31,28 @@
                         Content="Сгенерировать вещественное число"/>
                 <Button Command="{Binding GeneratePercentCommand}"
                         Content="Сгенерировать процент"/>
-
-                <CheckBox x:Name="UseRangeCheckBox" IsChecked="{Binding UseRange}" Content="Использовать диапозон"/>
-                <UniformGrid Rows="2" Columns="2">
-                    <UniformGrid.Style>
-                        <Style TargetType="UniformGrid">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=UseRangeCheckBox, Path=IsChecked}" Value="true">
-                                    <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ElementName=UseRangeCheckBox, Path=IsChecked}" Value="false">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </UniformGrid.Style>
-                    <Label Content="Минимум:"/>
-                    <Label Content="Максимум:"/>
-                    <TextBox Text="{Binding MinRange}"/>
-                    <TextBox Text="{Binding MaxRange}"/>
-                </UniformGrid>
+                <StackPanel>
+                    <CheckBox x:Name="UseRangeCheckBox" IsChecked="{Binding UseRange}" 
+                              Content="Использовать диапозон" HorizontalAlignment="Center"/>
+                    <UniformGrid Rows="4">
+                        <UniformGrid.Style>
+                            <Style TargetType="UniformGrid">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=UseRangeCheckBox, Path=IsChecked}" Value="true">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=UseRangeCheckBox, Path=IsChecked}" Value="false">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </UniformGrid.Style>
+                        <Label Content="Минимум:"/>
+                        <TextBox Text="{Binding MinRange}"/>
+                        <Label Content="Максимум:"/>
+                        <TextBox Text="{Binding MaxRange}"/>
+                    </UniformGrid>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>
