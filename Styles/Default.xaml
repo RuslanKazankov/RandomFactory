@@ -35,6 +35,7 @@
     </Style>
 
     <Style TargetType="CheckBox">
+        <Setter Property="Margin" Value="5"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -49,7 +50,7 @@
                                     Height="10" Width="10" 
                                     Visibility="Collapsed"/>
                         </Border>
-                        <Label>
+                        <Label Margin="0">
                             <ContentPresenter/>
                         </Label>
                     </StackPanel>

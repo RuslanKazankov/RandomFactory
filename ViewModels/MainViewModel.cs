@@ -114,5 +114,32 @@ namespace RandomFactory.ViewModels
             }
         }
 
+        public int Seed
+        {
+            get { return randomGenerator.Seed; }
+            set
+            {
+                randomGenerator.Seed = value;
+                RaisePropertyChanged(nameof(Seed));
+            }
+        }
+
+        private DelegateCommand randomSeedCommand;
+
+        public ICommand RandomSeedCommand
+        {
+            get
+            {
+                if (randomSeedCommand == null)
+                {
+                    randomSeedCommand = new DelegateCommand(() => {
+                        Seed = randomGenerator.GenerateInt();
+                    });
+                }
+
+                return randomSeedCommand;
+            }
+        }
+
     }
 }

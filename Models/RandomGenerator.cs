@@ -5,7 +5,25 @@ namespace RandomFactory.Models
 {
     public class RandomGenerator
     {
-        private Random random = new Random();
+        private Random random;
+
+        private int seed;
+        public int Seed
+        {
+            get => seed;
+            set
+            {
+                seed = value;
+                random = new Random(seed);
+            }
+        }
+
+        public RandomGenerator() 
+        {
+            seed = Environment.TickCount;
+            random = new Random(seed);
+        }
+
         public int GenerateInt()
         {
             return random.Next();
@@ -55,6 +73,7 @@ namespace RandomFactory.Models
             }
             return false;
         }
+
 
     }
 }
