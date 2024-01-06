@@ -86,7 +86,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\RandomGenerator.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RandomGeneratorVM.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

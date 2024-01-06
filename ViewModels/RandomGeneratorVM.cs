@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace RandomFactory.ViewModels
 {
-    public class MainViewModel : BindableBase
+    public class RandomGeneratorVM : BindableBase
     {
         private RandomGenerator randomGenerator = new RandomGenerator();
 
