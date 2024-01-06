@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="Button">
+        <Setter Property="Height" Value="30"/>
         <Setter Property="Background" Value="{StaticResource Gray60Brush}"/>
         <Setter Property="Margin" Value="5"/>
         <Setter Property="FontFamily" Value="Inter"/>
@@ -10,7 +11,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Border Height="30" Background="{TemplateBinding Background}"
+                        <Border Height="{TemplateBinding Height}" Background="{TemplateBinding Background}"
                                     CornerRadius="14" BorderThickness="1">
                             <Border.BorderBrush>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -19,6 +20,62 @@
                                 </LinearGradientBrush>
                             </Border.BorderBrush>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Gray50Brush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource Gray70Brush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ToolTip">
+        <Setter Property="HorizontalOffset" Value="-35"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <StackPanel Background="Transparent">
+                        <Polygon Points="5,0,0,5,10,5"
+                                     HorizontalAlignment="Center"
+                                     Fill="{StaticResource Gray70Brush}"/>
+                        <Border CornerRadius="5"
+                                    Background="{StaticResource Gray70Brush}">
+                            <TextBlock Padding="5">
+                                    <ContentPresenter/>
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="MiniButton" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Background" Value="{StaticResource Gray60Brush}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="4,2"/>
+        <Setter Property="FontFamily" Value="Inter"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border Height="{TemplateBinding Height}" Background="{TemplateBinding Background}"
+                                    CornerRadius="5" BorderThickness="1">
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="{StaticResource Gray50}"/>
+                                    <GradientStop Color="{StaticResource Gray70}" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>

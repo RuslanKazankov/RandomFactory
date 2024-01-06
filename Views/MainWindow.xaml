@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RandomFactory" xmlns:viewmodels="clr-namespace:RandomFactory.ViewModels"
+        xmlns:local="clr-namespace:RandomFactory" xmlns:viewmodels="clr-namespace:RandomFactory.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="RandomFactory" Height="800" Width="800"
         WindowStartupLocation="CenterScreen">
@@ -20,10 +20,17 @@
             </LinearGradientBrush>
         </Grid.Background>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0">
-            <TextBlock FontSize="60"
+            <StackPanel>
+                <TextBlock x:Name="ResultOfGeneration"
+                       FontSize="60"
                        FontWeight="Bold"
                        Text="{Binding ResultOfGeneration}"
-                       TextAlignment="Center"/>
+                       TextAlignment="Center"
+                       HorizontalAlignment="Center"/>
+                <Button Style="{DynamicResource MiniButton}"
+                        Command="{Binding CopyResultCommand}"
+                        HorizontalAlignment="Center" Content="Копировать"/>
+            </StackPanel>
             <StackPanel Width="300">
                 <StackPanel>
                     <Button Command="{Binding GenerateIntCommand}"

@@ -2,6 +2,8 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using RandomFactory.Models;
+using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RandomFactory.ViewModels
@@ -20,6 +22,7 @@ namespace RandomFactory.ViewModels
             set
             {
                 resultOfGeneration = value;
+
                 RaisePropertyChanged(nameof(ResultOfGeneration));
             }
         }
@@ -138,6 +141,32 @@ namespace RandomFactory.ViewModels
                 }
 
                 return randomSeedCommand;
+            }
+        }
+
+        private DelegateCommand copyResultCommand;
+
+        public ICommand CopyResultCommand
+        {
+            get
+            {
+                if (copyResultCommand == null)
+                {
+                    copyResultCommand = new DelegateCommand(() =>
+                    {
+                        try
+                        {
+                            Clipboard.SetText(resultOfGeneration);
+                        }
+                        catch (COMException)
+                        {
+
+                            throw;
+                        }
+                    });
+                }
+
+                return copyResultCommand;
             }
         }
 
