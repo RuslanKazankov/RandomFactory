@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RandomFactory.Models;
+using RandomFactory.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,12 @@ namespace RandomFactory
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = PropertiesManager.ReadRandomGeneratorVM();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            PropertiesManager.SaveRandomGeneratorVM(this.DataContext as RandomGeneratorVM);
         }
     }
 }

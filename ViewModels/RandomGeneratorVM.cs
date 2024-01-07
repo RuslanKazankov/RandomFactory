@@ -10,7 +10,10 @@ namespace RandomFactory.ViewModels
 {
     public class RandomGeneratorVM : BindableBase
     {
-        private RandomGenerator randomGenerator = new RandomGenerator();
+        private RandomGenerator randomGenerator;
+        public RandomGeneratorVM() {
+            randomGenerator = new RandomGenerator();
+        }
 
         private string resultOfGeneration = "0";
         public string ResultOfGeneration
