@@ -1,4 +1,5 @@
 ﻿using RandomFactory.Models;
+using RandomFactory.Models.DataAccess;
 using RandomFactory.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -22,15 +23,17 @@ namespace RandomFactory
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ValueDbContext valueDb;
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = PropertiesManager.ReadRandomGeneratorVM();
+            valueDb = new ValueDbContext();
+            DataContext = new MainVM(valueDb);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            PropertiesManager.SaveRandomGeneratorVM(this.DataContext as RandomGeneratorVM);
+            valueDb.Dispose();
         }
     }
 }

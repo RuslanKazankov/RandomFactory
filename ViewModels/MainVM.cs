@@ -1,34 +1,54 @@
-﻿using Microsoft.Xaml.Behaviors.Input;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using RandomFactory.Models;
+using RandomFactory.Models.DataAccess;
+using RandomFactory.Models.ValueType;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 
 namespace RandomFactory.ViewModels
 {
-    public class RandomGeneratorVM : BindableBase
+    public class MainVM : BindableBase
     {
-        private RandomGenerator randomGenerator;
-        public RandomGeneratorVM() {
-            randomGenerator = new RandomGenerator();
+        private RandomGenerator randomGenerator = new RandomGenerator();
+        private ValueDbContext valueDb;
+        private List<ValueEntity> valueHistory;
+
+        public MainVM(ValueDbContext db)
+        {
+            valueDb = db;
+            valueDb.LoadAll();
+            valueHistory = db.Values.ToList();
+            CurrentValue = valueHistory.LastOrDefault();
         }
 
-        private string resultOfGeneration = "0";
-        public string ResultOfGeneration
+        private ValueEntity currentValue;
+        public ValueEntity CurrentValue
         {
-            get 
-            {
-                return resultOfGeneration; 
-            }
+            get { return currentValue; }
             set
             {
-                resultOfGeneration = value;
-
+                currentValue = value;
+                RaisePropertyChanged(nameof(CurrentStep));
                 RaisePropertyChanged(nameof(ResultOfGeneration));
+                RaisePropertyChanged(nameof(Seed));
+                if (currentValue != null)
+                {
+                    randomGenerator.SetSeed(currentValue.Seed, currentValue.Step);
+                    if (currentValue.Range != null)
+                    {
+                        MinRange = currentValue.Range.Min;
+                        MaxRange = currentValue.Range.Max;
+                    }
+                }
             }
         }
+
+        public string ResultOfGeneration => CurrentValue?.Value ?? "0";
+        public int CurrentStep => CurrentValue?.Step ?? 0;
 
         private double minRange;
         public double MinRange
@@ -58,6 +78,16 @@ namespace RandomFactory.ViewModels
             }
         }
 
+        public int Seed
+        {
+            get { return randomGenerator.Seed; }
+            set
+            {
+                randomGenerator.SetSeed(value);
+                RaisePropertyChanged(nameof(Seed));
+            }
+        }
+
         private bool useRange = true;
         public bool UseRange
         {
@@ -79,11 +109,15 @@ namespace RandomFactory.ViewModels
             {
                 return generateInt ?? (generateInt = new DelegateCommand(() =>
                 {
+                    string result;
                     if (UseRange)
                     {
-                        ResultOfGeneration = randomGenerator.GenerateInt(MinRange, MaxRange).ToString();
+                        result = randomGenerator.GenerateInt(MinRange, MaxRange).ToString();
                     }
-                    else ResultOfGeneration = randomGenerator.GenerateInt().ToString();
+                    else result = randomGenerator.GenerateInt().ToString();
+
+                    if (!randomGenerator.Exception)
+                        Generate(valueDb.ValueTypes.Find(1), result);
                 }));
             }
         }
@@ -95,11 +129,15 @@ namespace RandomFactory.ViewModels
             {
                 return generateDouble ?? (generateDouble = new DelegateCommand(() =>
                 {
+                    string result;
                     if (UseRange)
                     {
-                        ResultOfGeneration = randomGenerator.GenerateDouble(MinRange, MaxRange).ToString();
+                        result = randomGenerator.GenerateDouble(MinRange, MaxRange).ToString();
                     }
-                    else ResultOfGeneration = randomGenerator.GenerateDouble().ToString();
+                    else result = randomGenerator.GenerateDouble().ToString();
+
+                    if (!randomGenerator.Exception)
+                        Generate(valueDb.ValueTypes.Find(2), result);
                 }));
             }
         }
@@ -111,23 +149,31 @@ namespace RandomFactory.ViewModels
             {
                 return generatePercent ?? (generatePercent = new DelegateCommand(() =>
                 {
+                    string result;
                     if (UseRange)
                     {
-                        ResultOfGeneration = randomGenerator.GeneratePercent(MinRange, MaxRange).ToString() + "%";
+                        result = randomGenerator.GeneratePercent(MinRange, MaxRange).ToString() + "%";
                     }
-                    else ResultOfGeneration = randomGenerator.GeneratePercent().ToString() + "%";
+                    else result = randomGenerator.GeneratePercent().ToString() + "%";
+
+                    if (!randomGenerator.Exception)
+                        Generate(valueDb.ValueTypes.Find(3), result);
                 }));
             }
         }
 
-        public int Seed
+        private void Generate(ValueTypeEntity type, string result)
         {
-            get { return randomGenerator.Seed; }
-            set
+            RangeEntity range = null;
+            if (UseRange)
             {
-                randomGenerator.Seed = value;
-                RaisePropertyChanged(nameof(Seed));
+                range = new RangeEntity { Min = MinRange, Max = MaxRange };
+                valueDb.Ranges.Add(range);
             }
+            CurrentValue = new ValueEntity { Value = result, Seed = Seed, Step = randomGenerator.Step, Type = type, Range = range };
+            valueDb.Values.Add(currentValue);
+            valueHistory.Add(currentValue);
+            valueDb.SaveChanges();
         }
 
         private DelegateCommand randomSeedCommand;
@@ -159,7 +205,7 @@ namespace RandomFactory.ViewModels
                     {
                         try
                         {
-                            Clipboard.SetText(resultOfGeneration);
+                            Clipboard.SetText(ResultOfGeneration);
                         }
                         catch (COMException)
                         {
@@ -172,6 +218,7 @@ namespace RandomFactory.ViewModels
                 return copyResultCommand;
             }
         }
+
 
     }
 }

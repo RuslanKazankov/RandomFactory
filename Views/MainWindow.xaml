@@ -7,10 +7,11 @@
         mc:Ignorable="d"
         Title="RandomFactory" Height="800" Width="800" Closing="Window_Closing"
         WindowStartupLocation="CenterScreen">
-    <Window.DataContext>
-        <viewmodels:RandomGeneratorVM/>
-    </Window.DataContext>
     <Window.Resources>
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.Background>
@@ -19,8 +20,22 @@
                 <GradientStop Color="{StaticResource Gray80}" Offset="0.7"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,50,0,0">
-            <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <ListBox Grid.Column="1" Height="200">
+                
+            </ListBox>
+            <StackPanel Grid.ColumnSpan="3" Grid.Row="1">
                 <TextBlock x:Name="ResultOfGeneration"
                        FontSize="60"
                        FontWeight="Bold"
@@ -31,52 +46,60 @@
                         Command="{Binding CopyResultCommand}"
                         HorizontalAlignment="Center" Content="Копировать"/>
             </StackPanel>
-            <StackPanel Width="300">
+            <StackPanel Grid.Column="1" Grid.Row="2" Width="300">
                 <StackPanel>
-                    <Button Command="{Binding GenerateIntCommand}"
+                    <StackPanel>
+                        <Button Command="{Binding GenerateIntCommand}"
                         Content="Сгенерировать целое число"/>
-                    <Button Command="{Binding GenerateDoubleCommand}"
+                        <Button Command="{Binding GenerateDoubleCommand}"
                         Content="Сгенерировать вещественное число"/>
-                    <Button Command="{Binding GeneratePercentCommand}"
+                        <Button Command="{Binding GeneratePercentCommand}"
                         Content="Сгенерировать процент"/>
-                </StackPanel>
-                <StackPanel>
-                    <Label Content="Ключ генерации:"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="0.5*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Text="{Binding Path=Seed, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Command="{Binding RandomSeedCommand}" Margin="0" Grid.Column="1" Content="Случайный"/>
-                    </Grid>
                     </StackPanel>
-                <StackPanel>
-                    <CheckBox x:Name="UseRangeCheckBox" IsChecked="{Binding UseRange}" 
+                    <StackPanel>
+                        <Label Content="Ключ генерации:"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding Path=Seed, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Command="{Binding RandomSeedCommand}" Margin="0" Grid.Column="1" Content="Случайный"/>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel>
+                        <CheckBox x:Name="UseRangeCheckBox" IsChecked="{Binding UseRange}" 
                               Content="Использовать диапозон"
                               HorizontalAlignment="Center"/>
-                    <Grid>
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=UseRangeCheckBox, Path=IsChecked}" Value="true">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ElementName=UseRangeCheckBox, Path=IsChecked}" Value="false">
-                                        <Setter Property="Visibility" Value="Hidden"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-                        <StackPanel>
-                            <Label Content="Минимум:"/>
-                            <TextBox Text="{Binding MinRange, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Label Content="Максимум:"/>
-                            <TextBox Text="{Binding MaxRange, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-                    </Grid>
+                        <Grid>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=UseRangeCheckBox, Path=IsChecked}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=UseRangeCheckBox, Path=IsChecked}" Value="false">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <StackPanel>
+                                <Label Content="Минимум:"/>
+                                <TextBox Text="{Binding MinRange, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Label Content="Максимум:"/>
+                                <TextBox Text="{Binding MaxRange, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
+            <StackPanel Grid.Column="2" Grid.Row="1">
+                <UniformGrid Columns="2">
+                    <TextBlock Text="Шаг: "/>
+                    <TextBlock Text="{Binding CurrentStep}"/>
+                </UniformGrid>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
