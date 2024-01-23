@@ -45,16 +45,18 @@ namespace RandomFactory.ViewModels
                 currentValue = value;
                 RaisePropertyChanged(nameof(CurrentStep));
                 RaisePropertyChanged(nameof(ResultOfGeneration));
-                RaisePropertyChanged(nameof(Seed));
                 if (currentValue != null)
                 {
                     randomGenerator.SetSeed(currentValue.Seed, currentValue.Step);
                     if (currentValue.Range != null)
                     {
+                        UseRange = true;
                         MinRange = currentValue.Range.Min;
                         MaxRange = currentValue.Range.Max;
                     }
+                    else UseRange = false;
                 }
+                RaisePropertyChanged(nameof(Seed));
             }
         }
 
@@ -230,6 +232,22 @@ namespace RandomFactory.ViewModels
             }
         }
 
+        private DelegateCommand<object> historySelectCommand;
+        public ICommand HistorySelectCommand
+        {
+            get
+            {
+                if(historySelectCommand == null)
+                {
+                    historySelectCommand = new DelegateCommand<object>((selectedItem) =>
+                    {
+                        CurrentValue = (ValueEntity)selectedItem;
+                    });
+                }
+
+                return historySelectCommand;
+            }
+        }
 
     }
 }
