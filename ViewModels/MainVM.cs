@@ -4,6 +4,7 @@ using RandomFactory.Models;
 using RandomFactory.Models.DataAccess;
 using RandomFactory.Models.ValueType;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -15,14 +16,24 @@ namespace RandomFactory.ViewModels
     {
         private RandomGenerator randomGenerator = new RandomGenerator();
         private ValueDbContext valueDb;
-        private List<ValueEntity> valueHistory;
+        private ObservableCollection<ValueEntity> valueHistory;
 
         public MainVM(ValueDbContext db)
         {
             valueDb = db;
             valueDb.LoadAll();
-            valueHistory = db.Values.ToList();
+            ValueHistory = new ObservableCollection<ValueEntity>(db.Values.ToList());
             CurrentValue = valueHistory.LastOrDefault();
+        }
+
+        public ObservableCollection<ValueEntity> ValueHistory
+        {
+            get { return valueHistory; }
+            set
+            {
+                valueHistory = value;
+                RaisePropertyChanged(nameof(ValueHistory));
+            }
         }
 
         private ValueEntity currentValue;
@@ -172,7 +183,7 @@ namespace RandomFactory.ViewModels
             }
             CurrentValue = new ValueEntity { Value = result, Seed = Seed, Step = randomGenerator.Step, Type = type, Range = range };
             valueDb.Values.Add(currentValue);
-            valueHistory.Add(currentValue);
+            ValueHistory.Add(currentValue);
             valueDb.SaveChanges();
         }
 
